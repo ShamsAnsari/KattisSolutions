@@ -6,7 +6,7 @@ class Union_Find:
             self.parents.append(i)
 
     def union(self, x, y):
-        self.parents[x] = self.find(y)
+        self.parents[self.find(x)] = self.find(y)
 
     def find(self, x):
         if self.parents[x] == x:
