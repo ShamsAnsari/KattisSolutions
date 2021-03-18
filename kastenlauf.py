@@ -1,61 +1,45 @@
-from sys import stdin
 
-def print_graph(graph):
-    for i in range(len(graph)):
-        print("Node: {} Neighbors: {}".format(i,graph[i]))
+class Union_Find:
+    def __init__(self, num_nodes):
+        self.parents = []
+        for i in range(num_nodes):
+            self.parents.append(i)
 
+    def union(self, x, y):
+        self.parents[x] = self.find(y)
+
+    def find(self, x):
+        if self.parents[x] == x:
+            return x
+        else:
+            self.parents[x] = self.find(self.parents[x])
+            return self.parents[x]
 
 def distance(p1, p2):
     x1, y1, x2, y2 = p1[0], p1[1], p2[0], p2[1]
     return abs(x1-x2) + abs(y1-y2)
 
 
-def create_graph(nodes):
-    num_nodes = len(nodes)
-    graph = [None] * num_nodes
-    for i in range(num_nodes):
-        graph[i] = []
-    for i in range(num_nodes):
-        for j in range(num_nodes):
-            if i != j and distance(nodes[i], nodes[j]) <= 1000:
-                graph[i].append(j)
-    return graph
-
-def BFS(graph, start, goal):
-    num_nodes = len(graph)
-    queue = []
-    visited = [False] * num_nodes
-
-    queue.append(start)
-
-
-    while queue:
-        node = queue.pop(0)
-        visited[node] = True
-        if node == goal:
-            return True
-
-        for neighbor in graph[node]:
-            if not visited[neighbor]:
-                queue.append(neighbor)
-
-    return False
-
-
-for i in range(int(stdin.readline().rstrip())):
-    n = int(stdin.readline().rstrip())
+for i in range(int(input())):
+    n = int(input())
     nodes = []
 
-    start = list(map(int, stdin.readline().rstrip().split()))
+    start = list(map(int, input().split()))
     nodes.append(start)
 
     for i in range(n):
-        store = list(map(int, stdin.readline().rstrip().split()))
+        store = list(map(int, input().split()))
         nodes.append(store)
 
-    end = list(map(int, stdin.readline().rstrip().split()))
+    end = list(map(int, input().split()))
     nodes.append(end)
 
+    num_nodes = len(nodes)
 
-    graph = create_graph(nodes)
-    print("happy") if BFS(graph, len(nodes) - 1, 0) else print("sad")
+    union_find = Union_Find(num_nodes)
+    for i in range(num_nodes):
+        for j in range(num_nodes):
+            if (i != j and distance(nodes[i], nodes[j]) <= 1000
+            and union_find.find(i) != union_find.find(j)):
+                    union_find.union(i,j)
+    print("happy") if union_find.find(0) == union_find.find(num_nodes - 1) else print("sad")
