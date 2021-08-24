@@ -1,3 +1,7 @@
+"""
+Kattis doesnt accept
+"""
+
 def print_chart(chart):
     print(chart_to_string(chart))
 
@@ -58,4 +62,5 @@ try:
             data.append(line)
 except:
     pass
+result += process(data)
 print(result[:-2])
