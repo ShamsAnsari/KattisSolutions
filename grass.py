@@ -21,11 +21,6 @@ def intersection(x, r):
     return (start, end)
 
 
-def compatible(curr_end, sB):
-    # if sB start is inside( or at) sA and end is outside sA
-    return sB.start <= curr_end and sB.end > curr_end
-
-
 while True:
     try:
         n, l, w = map(int, input().split())
@@ -45,32 +40,29 @@ while True:
         sprinklers.append(sprinkler)
 
     
-    
-    
-
     #Sort by start
     sprinklers.sort(key=lambda sprinkler: sprinkler.start)
 
-    
-
-
-
     covered = 0
-    i = 0
     sprinklers_needed = 0
-    while covered < l and i < len(sprinklers):
-        best_end = covered
+    i = 0
+
+    while covered < l:
         
-        j = i
-        while j < len(sprinklers) and compatible(covered, sprinklers[j]):
-            best_end = sprinklers[i].end
-            j += 1
-        if  j - 1 < len(sprinklers) and compatible(covered, sprinklers[j- 1]):
-            sprinklers_needed += 1
+        best_end=covered
+        while i < len(sprinklers):
+            if sprinklers[i].start > covered:
+                break
+            if sprinklers[i].end > best_end:
+                best_end = sprinklers[i].end
+            i += 1
+        if covered == best_end:
+            break
         covered = best_end
-        i += 1
-        #print(covered)
-    
+        sprinklers_needed += 1
+
+
+        
     print(-1 if covered < l else sprinklers_needed)
         
 
