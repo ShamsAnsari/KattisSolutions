@@ -1,5 +1,9 @@
 from sys import stdin
 import bisect
+'''
+Solution does not work because python does not have a multiset or a fast sorted data structure
+'''
+
 
 
 def compatible(activity, classroom):
