@@ -1,4 +1,5 @@
 from collections import deque
+
 original = deque(input())
 mutated = deque(input())
 
